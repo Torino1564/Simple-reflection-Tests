@@ -1,0 +1,7 @@
+class Component
+{
+	struct SubresourceData
+	{
+
+	};
+};
