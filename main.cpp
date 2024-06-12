@@ -1,6 +1,14 @@
 #define ZT_COMPONENT_FIELDS(x) \
 	public: struct SubresourceData{ x }
 
+#define CAT(x, y) x##y
+
+#define ZT_DEFINE_COMPONENT_VARIABLE(type, var) \
+	type var; \
+	static constexpr char CAT(type, var)##name[] = #type; \
+	static constexpr char CAT(var, type)##name[] = #var; \
+	static constexpr unsigned int type##var = CTM::Map<type, CAT(type, var)##name, CAT(var, type)##name, sizeof(type), UUID>
+
 #include <tuple>
 #include <iostream>
 #include "CTM.h"
@@ -66,30 +74,30 @@
 //		int member1 = 0;
 //	);
 //};
+struct TestComponent1
+{
+	static constexpr int UUID = 1;
 
-static constexpr const char intStr[] = "int";
-static constexpr const char hpStr[] = "hp";
-static constexpr const char foodStr[] = "food";
+public: struct SubresourceData {
+	int hp; static constexpr char inthpname[] = "int"; static constexpr char hpintname[] = "hp"; static constexpr unsigned int inthp = CTM::Map<int, inthpname, hpintname, sizeof(int), UUID>; float mana; static constexpr char floatmananame[] = "float"; static constexpr char manafloatname[] = "mana"; static constexpr unsigned int floatmana = CTM::Map<float, floatmananame, manafloatname, sizeof(float), UUID>; double energy; static constexpr char doubleenergyname[] = "double"; static constexpr char energydoublename[] = "energy"; static constexpr unsigned int doubleenergy = CTM::Map<double, doubleenergyname, energydoublename, sizeof(double), UUID>; double regen; static constexpr char doubleregenname[] = "double"; static constexpr char regendoublename[] = "regen"; static constexpr unsigned int doubleregen = CTM::Map<double, doubleregenname, regendoublename, sizeof(double), UUID>;
+};
 
-static constexpr const char floatStr[] = "float";
-static constexpr const char manaStr[] = "mana";
+	static constexpr unsigned int varCount = CTM::element_count<UUID>();
+};
 
-static constexpr const char doubleStr[] = "double";
-static constexpr const char energyStr[] = "energy";
+template <auto Tag = [] {} >
+extern consteval const char* StaticString(const char* pStr_t)
+{
+	static constexpr const char[] pStr = pStr_t;
+	return pStr;
+}
 
-static constexpr auto testVar = CTM::Map<int, intStr, hpStr, sizeof(int), 0>;
-static constexpr auto testVar1 = CTM::Map<int, intStr, hpStr, sizeof(int), 0>;
-static constexpr auto testVar2 = CTM::Map<int, intStr, hpStr, sizeof(int), 0>;
-static constexpr auto testVar3 = CTM::Map<int, intStr, hpStr, sizeof(int), 0>;
+template <const char* Str>
+struct TestStruct
+{
+	static constexpr const char* pString = Str;
+};
 
-
-
-using MapElement1 = CTM::MapElement<int, intStr, hpStr, sizeof(int)>;
-using MapElement2 = CTM::MapElement<float, floatStr, manaStr, sizeof(float)>;
-using MapElement3 = CTM::MapElement<double, doubleStr, energyStr, sizeof(double)>;
-using MapElement4 = CTM::MapElement<int, intStr, foodStr, sizeof(int)>;
-
-using CurrentMap = std::tuple<MapElement1, MapElement2, MapElement3, MapElement4>;
 
 template <typename Tuple, unsigned N = 0>
 void PrintMap()
@@ -121,5 +129,6 @@ void PrintMapElement()
 
 int main()
 {
-	PrintMap<CurrentMap>();
+	int testVar = TestComponent1::varCount;
+	PrintMap<CTM::get_list<TestComponent1::UUID>>();
 }
