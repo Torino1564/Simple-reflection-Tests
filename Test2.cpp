@@ -1,7 +1,1 @@
-class Component
-{
-	struct SubresourceData
-	{
-
-	};
-};
+#include "CTM.h"
