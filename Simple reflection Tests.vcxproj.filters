@@ -18,7 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test2.cpp">
+    <ClCompile Include="DummyClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -27,6 +27,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CTM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentsHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component0.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <string>
 
-namespace ctc
+namespace CTC
 {
     // E1
     template<typename...>

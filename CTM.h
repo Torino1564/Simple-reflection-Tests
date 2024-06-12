@@ -25,9 +25,20 @@ namespace CTM
         using type = type_list<Ts..., T>;
     };
 
-    template <const char* TypeName, auto Tag = [] {} >
+    template <unsigned int N>
+    struct StaticString
+    {
+        constexpr StaticString(const char(&str)[N])
+        {
+            std::copy_n(str, N, v);
+        }
+
+        char v[N];
+    };
+
+    template <StaticString TypeName, auto Tag = [] {} >
     constexpr auto TextType = [] {
-        return TypeName;
+        return TypeName.v;
         };
 
     template <unsigned int N, auto Tag = [] {} >
@@ -35,7 +46,8 @@ namespace CTM
         return N;
         };
 
-    template <typename T, const char* TypeName, const char* VarName, unsigned int VarSize>
+
+    template <typename T, StaticString TypeName, StaticString VarName, unsigned int VarSize>
     struct MapElement
     {
         using Type = T;
@@ -87,13 +99,27 @@ namespace CTM
     };
 
     // TODO: AUTOMATE THIS
-    template struct setter<0, std::tuple<>, tu_tag, 0>;     // E6
-    template struct setter<0, std::tuple<>, tu_tag, 1>;
-    template struct setter<0, std::tuple<>, tu_tag, 2>;
-    template struct setter<0, std::tuple<>, tu_tag, 3>;
-    template struct setter<0, std::tuple<>, tu_tag, 4>;
-    template struct setter<0, std::tuple<>, tu_tag, 5>;
-    template struct setter<0, std::tuple<>, tu_tag, 6>;
+    // template struct setter<0, std::tuple<>, tu_tag, 0>;     // E6
+    // template struct setter<0, std::tuple<>, tu_tag, 1>;
+    // template struct setter<0, std::tuple<>, tu_tag, 2>;
+    // template struct setter<0, std::tuple<>, tu_tag, 3>;
+    // template struct setter<0, std::tuple<>, tu_tag, 4>;
+    // template struct setter<0, std::tuple<>, tu_tag, 5>;
+    // template struct setter<0, std::tuple<>, tu_tag, 6>;
+    // template struct setter<0, std::tuple<>, tu_tag, 7>;
+    // template struct setter<0, std::tuple<>, tu_tag, 8>;
+    // template struct setter<0, std::tuple<>, tu_tag, 9>;
+    // template struct setter<0, std::tuple<>, tu_tag, 10>;
+    // template struct setter<0, std::tuple<>, tu_tag, 11>;
+    // template struct setter<0, std::tuple<>, tu_tag, 12>;
+    // template struct setter<0, std::tuple<>, tu_tag, 13>;
+    // template struct setter<0, std::tuple<>, tu_tag, 14>;
+    // template struct setter<0, std::tuple<>, tu_tag, 15>;
+    // template struct setter<0, std::tuple<>, tu_tag, 16>;
+    // template struct setter<0, std::tuple<>, tu_tag, 17>;
+    // template struct setter<0, std::tuple<>, tu_tag, 18>;
+    // template struct setter<0, std::tuple<>, tu_tag, 19>;
+    // template struct setter<0, std::tuple<>, tu_tag, 20>;
 
 
 
@@ -144,8 +170,8 @@ namespace CTM
     // E9
     template<
         typename T,
-        const char* TypeName,
-        const char* VarName,
+        StaticString TypeName,
+        StaticString VarName,
         unsigned int VarSize,
         std::same_as<tu_tag> TUTag,
         auto EvalTag,
@@ -164,8 +190,8 @@ namespace CTM
     // E10
     template<
         typename T,
-        const char* TypeName,
-        const char* VarName,
+        StaticString TypeName,
+        StaticString VarName,
         unsigned int VarSize,
         unsigned int ID,
         std::same_as<tu_tag> TUTag = tu_tag,
@@ -186,7 +212,7 @@ namespace CTM
         static constexpr unsigned n = N;
     };
 
-    template<auto Tag, typename T, const char* TypeName, const char* VarName, unsigned int VarSize, unsigned int ID, unsigned NextVal = 0>
+    template<auto Tag, typename T, StaticString TypeName, StaticString VarName, unsigned int VarSize, unsigned int ID, unsigned NextVal = 0>
     [[nodiscard]]
     consteval auto Map_Impl()
     {
@@ -206,12 +232,29 @@ namespace CTM
     }
 
     template <typename T,
-        const char* TypeName,
-        const char* VarName,
+        StaticString TypeName,
+        StaticString VarName,
         unsigned int VarSize,
         unsigned int ID = 0,
         auto Tag = [] {},
         auto Val = Map_Impl<Tag, T, TypeName, VarName, VarSize, ID>() >
     constexpr auto Map = Val;
+
+    template <typename T,
+        StaticString TypeName,
+        StaticString VarName,
+        unsigned int VarSize,
+        unsigned int ID = 0,
+        auto Tag = [] {},
+        auto Val = Map_Impl<Tag, T, TypeName, VarName, VarSize, ID>() >
+    struct Map_t
+    {   
+        static constexpr auto Run()
+        {
+            return Val;
+        }
+
+        static constexpr auto n = Val;
+    };
 
 }

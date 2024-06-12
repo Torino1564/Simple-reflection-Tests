@@ -130,11 +130,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Test2.cpp" />
+    <ClCompile Include="DummyClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="Component0.h" />
+    <ClInclude Include="Component2.h" />
+    <ClInclude Include="Component3.h" />
+    <ClInclude Include="ComponentsHeader.h" />
     <ClInclude Include="CTC.h" />
     <ClInclude Include="CTM.h" />
+    <ClInclude Include="Component1.h" />
+    <ClInclude Include="DummyClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
